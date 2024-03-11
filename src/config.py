@@ -1,0 +1,8 @@
+GAME_CAPTION = 'Br3ak0ut'
+
+WIDTH = 1000
+HEIGHT = 800
+
+FPS = 60
+
+BG_COLOR = (40, 40, 40)
