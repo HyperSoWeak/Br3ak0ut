@@ -2,6 +2,7 @@ import pygame
 
 from config import *
 from states.menu import Menu
+from states.game import Game
 
 class App:
     def __init__(self):
@@ -15,7 +16,8 @@ class App:
         self.clock = pygame.time.Clock()
 
         self.states = {
-            'Menu': Menu()
+            'Menu': Menu(),
+            'Game': Game(),
         }
         self.state = self.states['Menu']
 
