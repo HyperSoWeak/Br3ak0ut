@@ -19,7 +19,7 @@ class App:
             'Menu': Menu(),
             'Game': Game(),
         }
-        self.state = self.states['Game']
+        self.state = self.states['Menu']
 
         self.running = True
 

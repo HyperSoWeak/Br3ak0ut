@@ -10,7 +10,7 @@ from sprites.button import Button
 class Game(State):
     def __init__(self):
         super().__init__()
-        self.font = pygame.font.Font(None, 44)
+        self.font = pygame.font.Font('assets/fonts/Louis George Cafe.ttf', 36)
         self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 150)
         self.btn = Button(100, 70, 100, 50, 'Back', on_click=self.btn_click)
 

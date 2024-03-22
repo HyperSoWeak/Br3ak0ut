@@ -2,7 +2,7 @@ import pygame
 
 class Button:
     def __init__(self, x, y, width, height, text, button_color=(60, 60, 60), hover_color=(80, 80, 80),
-                 text_color=(220, 220, 220), font_size=30, corner_radius=0, on_click=lambda: None):
+                 text_color=(220, 220, 220), font_size=26, corner_radius=0, on_click=lambda: None):
         self.rect = pygame.Rect(0, 0, width, height)
         self.rect.center = (x, y)
         self.text = text
@@ -11,7 +11,7 @@ class Button:
         self.hover_color = hover_color
         self.text_color = text_color
 
-        self.font = pygame.font.Font(None, font_size)
+        self.font = pygame.font.Font('assets/fonts/Louis George Cafe.ttf', font_size)
         self.corner_radius = corner_radius
 
         self.__is_hovered = False
