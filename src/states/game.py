@@ -10,7 +10,7 @@ class Game(State):
     def __init__(self):
         super().__init__()
         self.font = pygame.font.Font(None, 44)
-        self.player = Player(WIDTH / 2, HEIGHT - 100, 150, 20)
+        self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 150)
 
     def handle_event(self, events):
         for event in events:
@@ -24,6 +24,6 @@ class Game(State):
     def render(self, screen):
         screen.fill(BG_COLOR)
 
-        render_text(screen, self.font, 'Gameplay', (WIDTH / 2, 100), pivot='center')
+        render_text(screen, self.font, 'Gameplay', (SCREEN_WIDTH / 2, 100), pivot='center')
 
         self.player.render(screen)

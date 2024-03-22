@@ -23,5 +23,5 @@ class Menu(State):
     def render(self, screen):
         screen.fill(BG_COLOR)
 
-        render_text(screen, self.font, 'Br3ak0ut', (WIDTH / 2, 230), pivot='center')
-        render_text(screen, self.small_font, 'Press Enter To Play', (WIDTH / 2, 350), pivot='center', color=(150, 150, 150))
+        render_text(screen, self.font, 'Br3ak0ut', (SCREEN_WIDTH / 2, 230), pivot='center')
+        render_text(screen, self.small_font, 'Press Enter To Play', (SCREEN_WIDTH / 2, 350), pivot='center', color=(150, 150, 150))

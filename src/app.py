@@ -6,8 +6,8 @@ from states.game import Game
 
 class App:
     def __init__(self):
-        self.WIDTH = WIDTH
-        self.HEIGHT = HEIGHT
+        self.WIDTH = SCREEN_WIDTH
+        self.HEIGHT = SCREEN_HEIGHT
         self.FPS = FPS
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.DOUBLEBUF, 32)
