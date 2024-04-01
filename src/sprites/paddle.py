@@ -5,10 +5,12 @@ from config import *
 
 class Paddle:
     def __init__(self, x, y, length, color=(178, 201, 47)):
+        self.original_y = y
         self.rect = pygame.Rect(0, 0, length, 15)
         self.rect.center = (x, y)
         self.color = color
         self.velocity = Vector2(0, 0)
+        self.acceleration = Vector2(0, 0)
 
         self.mu_k = 1
 
@@ -20,6 +22,22 @@ class Paddle:
             self.setLength(self.rect.width + 5)
         if(key_pressed[pygame.K_LEFT]):
             self.setLength(self.rect.width - 5)
+
+        mouse_pressed = pygame.mouse.get_pressed()
+        if(mouse_pressed[0] and self.rect.y > 0.9 * SCREEN_HEIGHT):
+            self.acceleration = Vector2(0, 0)
+            self.velocity = Vector2(0, 0)
+        elif(mouse_pressed[0] and self.rect.y < 0.9 * SCREEN_HEIGHT):
+            self.acceleration += Vector2(0, 0.4)
+        elif(self.rect.y > self.original_y):
+            self.acceleration = Vector2(0, 0)
+            self.velocity = Vector2(0, -10)
+        else:
+            self.acceleration = Vector2(0, 0)
+            self.velocity = Vector2(0, 0)
+
+        self.velocity += self.acceleration
+        self.rect.y += self.velocity.y
 
         prev_pos_x = self.rect.centerx
         self.rect.centerx = mouse_pos[0]
