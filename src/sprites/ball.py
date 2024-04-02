@@ -1,72 +1,52 @@
 import pygame
-from pygame.math import Vector2
-from paddle import calculate_ball_rebound
-from random import randint
-import config
+from pygame import Vector2
+from config import *
+from paddle import Paddle
+from brick import Brick
+from props import Props
+from config import SCREEN_WIDTH, SCREEN_HEIGHT
 
-class Ball(pygame.sprite.Sprite):
-    def __init__(self, velocity: Vector2, pos_x, pos_y, radius, color = 'yellow'):
-        super().__init__()
-
-        self.color = color
-        self.pos = Vector2(pos_x, pos_y)
+class Ball:
+    def __init__(self, x, y, radius, speed, color=(178, 201, 47)):
+        self.pos = Vector2(x, y)
         self.radius = radius
-        self.velocity = velocity
-        self.dt = 1
-
-        # define ball's appearance
-        # make the ball grow in size as its attack increases
-        weak_ball = pygame.image.load('PATH').convert_alpha()
-        medium_ball = pygame.image.load('PATH').convert_alpha()
-        strong_ball = pygame.image.load('PATH').convert_alpha()
-        self.ball_image = [weak_ball, medium_ball, strong_ball]
-        self.image_index = 0
-        self.image = self.ball_image[self.image_index]
-        self.rect = self.image.get_rect(center = self.pos)
-
-        # define music
-        self.hit_brick_music = pygame.mixer.Sound('MUSIC PATH')
-        self.hit_paddle_music = pygame.mixer.Sound('MUSIC PATH')
-
-    def collision_with_wall(self):
-        if self.rect.left <= 0 | self.rect.right >= SCREEN.WIDTH:
-            self.velocity.x *= -1
-        if self.rect.top <= 0:
-            self.velocity.y *= -1
-
-    def collision_with_paddle(self):
-        if pygame.sprite.spritecollide(ball.sprite, paddle, False):
-            self.hit_paddle_music.play()
-            self.velocity = calculate_ball_rebound(self.velocity, self.radius) 
+        self.speed = Vector2(speed, speed)
+        self.color = color
+        self.rect = pygame.Rect(self.pos.x - self.radius, self.pos.y - self.radius, self.pos.x + self.radius, self.pos.y + self.radius)
+        self.attack = 1
     
-    def collision_with_brick(self):
-        if pygame.sprite.spritecollide(ball.sprite, bricks, False):
-            self.hit_brick_music.play()
-            self.velocity.y *= -1
+    def calculate_ball_wall_rebound(self):
+        if self.pos.x - self.radius < 0 or self.pos.x + self.radius > SCREEN_WIDTH:
+            self.speed.x *= -1
+        if self.pos.y - self.radius < 0 or self.pos.y + self.radius > SCREEN_HEIGHT:
+            self.speed.y *= -1
 
-            # increase attack power
-            self.image_index += 0.05
-            if self.image_index >= len(self.ball_image): self.image_index = len(self.ball_image)
-            self.image = self.ball_image[int(self.image_index)]
+    def render(self, screen):
+        pygame.draw.circle(screen, self.color, (int(self.pos.x), int(self.pos.y)), self.radius)
 
-    # make the ball move unexpectedly with lots of twists and turns
-    # 這裡還沒寫完 還在想要怎麼寫 get_event 跟設定持續時間
-    def choatic_movement(self):
-        choas_timer = pygame.USEREVENT + 1
-        pygame.time.set_timer(choas_timer, randint(10000, 15000))
-        for event in pygame.event.get():
-            if event.type == choas_timer:
-                self.velocity += (randint(-0.5, 0.5), randint(-0.5, 0.5))
+    def change_size(self, new_radius):
+        self.radius = new_radius
 
-        
-    def update(self):
-        self.collision_with_paddle()
-        self.collision_with_brick()
-        self.collision_with_wall()
-        self.rect.center += self.velocity * self.dt
+    def update(self, dt):
+        self.pos += self.speed * dt
+        self.change_size(self.attack)
+        self.calculate_ball_rebound()
+        self.attck_change()
 
+    def collides_with_paddle(self, paddle.rect):
+        return self.rect.colliderect(paddle.rect)
+    
+    def collides_with_brick(self, brick.rect):
+        return self.rect.colliderect(brick.rect)    
 
-"""
-To be discussed
-1. calculate_ball_rebound 裡面好像沒用到ball.size?
-"""
+    def calculate_ball_rebound(self, paddle):
+        if collides_with_paddle(paddle):
+            new_speed = paddle.calculate_ball_rebound(self.speed, self.pos, self.radius)
+            self.speed = new_speed
+        if collides_with_brick(brick):
+            self.speed.y *= -1
+            #brick is smooth
+
+    def attck_change(self, props):
+        if self.rect.colliderect(props.rect)
+            self.attack += 1
